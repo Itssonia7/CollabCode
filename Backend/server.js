@@ -12,16 +12,18 @@ const app = express();
 
 const server = http.createServer(app);
 
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: CLIENT_ORIGIN,
     methods: ["GET", "POST"]
   }
 });
 
 app.use(
   cors({
-    origin: "http://localhost:5173"
+    origin: CLIENT_ORIGIN
   })
 );
 
@@ -1089,13 +1091,14 @@ app.post(
 // SERVER
 // ============================================================
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 server.listen(
   PORT,
+  "0.0.0.0",
   () =>
     console.log(
-      `CollabCode backend running on http://localhost:${PORT}`
+      `CollabCode backend running on port ${PORT}`
     )
 );
 
